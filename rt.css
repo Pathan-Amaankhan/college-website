@@ -1,0 +1,118 @@
+*{
+    margin:0%;
+    padding:0%;
+}
+.body {
+    background-color: lightgrey;
+}
+.hero{
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4),
+    rgba(0, 0, 0, 0.4)),
+    url(background.jpg);
+    background-position: center;
+    background-size: cover;
+    position: absolute;
+}
+
+/*  for form */
+.form-box{
+    width: 450px;
+    height: 480px;
+    position: absolute;
+    right:10px;
+    margin: 6% auto;
+    background: #fff;
+    padding: 2px;
+    overflow: hidden;
+}
+.button-box{
+    width: 220px;
+    margin: 35px auto;
+    position: relative;
+    border-radius: 30px;
+}
+.toggle-btn{
+    transition: all .3s;
+    padding: 10px 30px;
+    cursor: pointer;
+    background: rgba(250,128,144,0.3);
+    border: 1px;
+    outline: none;
+    position: relative;
+    color: white;
+    font-weight: bold;
+}
+
+.toggle-btn.selected {
+    background: salmon;
+}
+
+.input-group{
+    top: 180px;
+    position:absolute;
+    right: 10px;
+    width:280px;
+    transition:0.5s;
+}
+.input-field{
+    transition: all .3s;
+    position: relative;
+    margin: 5px 15px;
+    border: 1px solid rgba(255,127,80,0.2);
+    border-radius: 5px;
+    width: 100%;
+    outline: none;
+    padding: 10px;
+}
+.input-field:focus {
+    border: 1px solid rgba(255,127,80,1);
+    border-radius: 10px;
+}
+.input-field:hover {
+    cursor: text;
+}
+#submit-btn{
+    transition: all .3s;
+    width: 69%;
+    color: white;
+    padding: 10px 30px;
+    cursor: pointer;
+    display:block;
+    margin: auto;
+    border: 1px solid white;
+    background-color: coral;
+    outline: none;
+    border-radius: 24px;
+}
+
+#submit-btn:hover {
+    background: white;
+    border: 1px solid coral;
+    color: coral;
+}
+
+#registration-form div, #login-form div {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+[id$="-form"] {
+    transition: all 1s, opacity .3s;
+    width: 100%;
+    position: relative;
+    left: 50%;
+    transform: translate(-51%);
+}
+
+#login-form {
+    opacity: 0;
+    position: absolute;
+    transform: translate(51%);
+}
+
+#form-container {
+    transition: all 1s;
+    height: 160px;
+}

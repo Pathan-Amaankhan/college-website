@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Registration form</title>
+        <link rel="stylesheet" href="rt.css">
+    </head>
+    <body>
+        <div class="hero"> <!--For the Whole Background-->
+            <div class="form-box"> <!-- This is for the form section css specially -->
+                <div class="button-box">
+                    <button type="button" class="toggle-btn selected" onclick="Register()">Register</button>
+                    <button type="button" class="toggle-btn" onclick="Login()">Log In</button>
+                </div>
+                <div id="form-container">
+                    <form id="registration-form"><!--This is for PHP backend-->
+                        <!-- This is for the input fields positions adjustments -->
+                        <div>
+                            <input type="text" placeholder="Enter Name" name="fname" class="input-field" required>
+                            <input type="email" name="email" class= "input-field"  placeholder="Email" required>
+                        </div>
+                        <div>
+                            <input type="number" class= "input-field" placeholder="Mobile Number"  name="mobile_number" required >
+                            <input type="number" name="otp" class= "input-field" placeholder='Enter OTP'>
+                        </div>
+                        <div>
+                            <input type="text" class= "input-field" name="state" placeholder="Enter State">
+                            <input type="text" name="city" class= "input-field" placeholder="city">
+                        </div>
+                    </form>
+
+                    <!-- This is for the Login Page's Input fields  -->
+                    <form id="login-form">
+                        <div>
+                            <input type="text" placeholder="Email/Mob/Application Num" class= "input-field" required>
+                            <input type="text" placeholder="Password" class= "input-field" required>
+                        </div>
+                    </form>
+                </div>
+                <button id="submit-btn" onclick="submitForm(this)">Register</button>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        const registrationFrom = document.getElementById("registration-form");
+        const loginForm = document.getElementById("login-form");
+        const formContainer = document.getElementById("form-container");
+        const toggleButtons = document.getElementsByClassName("toggle-btn");
+        const submitButton = document.getElementById("submit-btn");
+
+        function Login(){
+            registrationFrom.style.transform="translate(-151%)";
+            loginForm.style.transform="translate(-51%)";
+            formContainer.style.height = "60px";
+            submitButton.style.width = "0";
+            submitButton.style.fontSize = "0";
+            setTimeout(function () {
+                loginForm.style.position = "relative";
+                registrationFrom.style.position = "absolute";
+                registrationFrom.style.opacity = "0";
+                loginForm.style.opacity = "1";
+                submitButton.innerText = "Login";
+                submitButton.style.width = "69%";
+                submitButton.style.fontSize ="small";
+            }, 1000);
+            toggleBtns();
+        }
+        function  Register(){
+            registrationFrom.style.transform="translate(-51%)";
+            loginForm.style.transform="translate(51%)";
+            formContainer.style.height = "160px";
+            submitButton.style.width = "0";
+            submitButton.style.fontSize = "0";
+            setTimeout(function () {
+                registrationFrom.style.position = "relative";
+                loginForm.style.position = "absolute";
+                loginForm.style.opacity = "0";
+                submitButton.innerText = "Register";
+                registrationFrom.style.opacity = "1";
+                submitButton.style.width = "69%";
+                submitButton.style.fontSize ="small";
+            }, 1000);
+            toggleBtns();
+        }
+
+        function toggleBtns() {
+            Array.from(toggleButtons).forEach(element => {
+                if(element.classList.contains("selected")) {
+                    element.classList.remove("selected");
+                } else {
+                    element.classList.add("selected");
+                }
+            });
+        }
+
+        function submitForm(buttonRef) {
+            if(buttonRef.innerText === 'Register') {
+
+            } else {
+
+            }
+        }
+
+
+    </script>
+</html>
