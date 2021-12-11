@@ -18,24 +18,27 @@
                     <form id="registration-form"><!--This is for PHP backend-->
                         <!-- This is for the input fields positions adjustments -->
                         <div>
-                            <input type="text" placeholder="Enter Name" name="fname" class="input-field" required>
-                            <input type="email" name="email" class= "input-field"  placeholder="Email" required>
+                            <input type="text" name="name" class="input-field" placeholder="Enter Name" required>
+                            <input type="email" name="email" class= "input-field"  placeholder="Enter Email" required>
                         </div>
                         <div>
-                            <input type="number" class= "input-field" placeholder="Mobile Number"  name="mobile_number" required >
-                            <input type="number" name="otp" class= "input-field" placeholder='Enter OTP'>
+                            <input type="number" name="phone-number" class= "input-field" placeholder="Mobile Number" required >
+                            <input type="number" name="otp" class= "input-field" placeholder='Enter OTP' required>
                         </div>
                         <div>
-                            <input type="text" class= "input-field" name="state" placeholder="Enter State">
-                            <input type="text" name="city" class= "input-field" placeholder="city">
+                            <input type="text" name="state" class= "input-field" placeholder="Enter State" required>
+                            <input type="text" name="city" class= "input-field" placeholder="Enter City" required>
+                        </div>
+                        <div>
+                            <input type="text" name="password" class="input-field" placeholder="Enter Password" required>
                         </div>
                     </form>
 
                     <!-- This is for the Login Page's Input fields  -->
                     <form id="login-form">
                         <div>
-                            <input type="text" placeholder="Email/Mob/Application Num" class= "input-field" required>
-                            <input type="text" placeholder="Password" class= "input-field" required>
+                            <input type="text" name="user-id" placeholder="Email" class= "input-field" required>
+                            <input type="password" name="password" placeholder="Password" class= "input-field" required>
                         </div>
                     </form>
                 </div>
@@ -51,56 +54,116 @@
         const toggleButtons = document.getElementsByClassName("toggle-btn");
         const submitButton = document.getElementById("submit-btn");
 
-        function Login(){
-            registrationFrom.style.transform="translate(-151%)";
-            loginForm.style.transform="translate(-51%)";
-            formContainer.style.height = "60px";
-            submitButton.style.width = "0";
-            submitButton.style.fontSize = "0";
-            setTimeout(function () {
-                loginForm.style.position = "relative";
-                registrationFrom.style.position = "absolute";
-                registrationFrom.style.opacity = "0";
-                loginForm.style.opacity = "1";
-                submitButton.innerText = "Login";
-                submitButton.style.width = "69%";
-                submitButton.style.fontSize ="small";
-            }, 1000);
-            toggleBtns();
-        }
-        function  Register(){
-            registrationFrom.style.transform="translate(-51%)";
-            loginForm.style.transform="translate(51%)";
-            formContainer.style.height = "160px";
-            submitButton.style.width = "0";
-            submitButton.style.fontSize = "0";
-            setTimeout(function () {
-                registrationFrom.style.position = "relative";
-                loginForm.style.position = "absolute";
-                loginForm.style.opacity = "0";
-                submitButton.innerText = "Register";
-                registrationFrom.style.opacity = "1";
-                submitButton.style.width = "69%";
-                submitButton.style.fontSize ="small";
-            }, 1000);
-            toggleBtns();
-        }
-
-        function toggleBtns() {
-            Array.from(toggleButtons).forEach(element => {
-                if(element.classList.contains("selected")) {
-                    element.classList.remove("selected");
-                } else {
-                    element.classList.add("selected");
-                }
-            });
-        }
-
         function submitForm(buttonRef) {
+            let formData = new FormData();
+            let willSendData = true;
             if(buttonRef.innerText === 'Register') {
+                Array.from(registrationFrom.children).every(function (formElement) {
+                    let flag = true;
+                    Array.from(formElement.children).every(function (input) {
+                        if(input.value.trim()) {
+                            formData.append(input.name, input.value.trim());
+                            return true;
+                        } else {
+                            alert(`${input.name} is a mandatory field. It cannot be empty.`);
+                            flag = false;
+                            willSendData = false;
+                        }
+                    });
+                    return flag;
+                });
 
+                if(willSendData) {
+                    fetch('register.php', {body: formData, method: 'post'})
+                        .then(response => response.json())
+                        .then(data => alert(data.message));
+                }
             } else {
+                Array.from(loginForm.children[0].children).every(function (input) {
+                    if(input.value.trim()) {
+                        formData.append(input.name, input.value.trim());
+                        return true;
+                    } else {
+                        alert(`${input.name} is a mandatory field. It cannot be empty.`);
+                        willSendData = false;
+                    }
+                });
 
+                if(willSendData) {
+                    fetch('login.php', {body: formData, method: 'post'})
+                        .then(response => response.json())
+                        .then(data => alert(data.message));
+                }
+            }
+        }
+
+        function Login(){
+            if(!toggleButtons[1].classList.contains("selected")) {
+                registrationFrom.style.transform="translate(-151%)";
+                loginForm.style.transform="translate(-51%)";
+                formContainer.style.height = "60px";
+                submitButton.style.width = "0";
+                submitButton.style.fontSize = "0";
+
+                Array.from(loginForm.children[0].children).forEach(function (element) {
+                    element.disabled = false;
+                });
+
+                Array.from(registrationFrom.children).forEach(function (formElement) {
+                    Array.from(formElement.children).forEach(function (element) {
+                        element.disabled = true;
+                    });
+                });
+
+                setTimeout(function () {
+                    loginForm.style.position = "relative";
+                    registrationFrom.style.position = "absolute";
+                    registrationFrom.style.opacity = "0";
+                    loginForm.style.opacity = "1";
+                    submitButton.innerText = "Login";
+                    submitButton.style.width = "69%";
+                    submitButton.style.fontSize ="small";
+                }, 1000);
+                toggleBtns("login");
+            }
+        }
+        function  Register() {
+            if(!toggleButtons[0].classList.contains("selected")) {
+                registrationFrom.style.transform="translate(-51%)";
+                loginForm.style.transform="translate(51%)";
+                formContainer.style.height = "200px";
+                submitButton.style.width = "0";
+                submitButton.style.fontSize = "0";
+                Array.from(loginForm.children[0].children).forEach(function (element) {
+                   element.disabled = true;
+                });
+
+                Array.from(registrationFrom.children).forEach(function (formElement) {
+                    Array.from(formElement.children).forEach(function (element) {
+                        element.disabled = false;
+                    });
+                });
+
+                setTimeout(function () {
+                    registrationFrom.style.position = "relative";
+                    loginForm.style.position = "absolute";
+                    loginForm.style.opacity = "0";
+                    submitButton.innerText = "Register";
+                    registrationFrom.style.opacity = "1";
+                    submitButton.style.width = "69%";
+                    submitButton.style.fontSize ="small";
+                }, 1000);
+                toggleBtns("register");
+            }
+        }
+
+        function toggleBtns(buttonPressed) {
+            if(buttonPressed === 'register') {
+                toggleButtons[0].classList.add("selected");
+                toggleButtons[1].classList.remove("selected");
+            } else {
+                toggleButtons[1].classList.add("selected");
+                toggleButtons[0].classList.remove("selected");
             }
         }
 
