@@ -1,24 +1,28 @@
 <?php
 
-    $fname = $_POST["fname"];
+    $name = $_POST["name"];
     $email = $_POST["email"];
-    $mobile_number = $_POST["mobile_number"];
-    $state = $_POST["state"];
+    $mobile_number = $_POST["phone-number"];
+    $otp = $_POST["otp"];
     $city = $_POST["city"];
-    $gender = $_POST["gender"];
+    $state = $_POST["state"];
+    $password = $_POST["password"];
 
-    <!-- this is for connection of database  -->
+    // this is for connection of database
 
-    $conn = new mysqli('localhost','root','','test');
-    if connect($conn->connect_error){
-    echo("connection failed");
+    $conn = new mysqli('localhost','root','','register_user');
+
+    if($conn->connect_error) {
+        $result = array("success"=>false, "message"=>"Registration Unsuccessful");
+    } else {
+        $stmt = $conn->prepare("insert into registration(fname, email, mobile_number, otp, state, city, password) values(?,?,?,?,?,?,?)");
+        $stmt->bind_param("sssisss",$name, $email, $mobile_number, $otp, $state, $city, $password);
+        if($stmt->execute()) {
+            $result = array("success"=>true, "message"=>"Registration Success");
+        } else {
+            $result = array("success"=>false, "message"=>"User Already Registered Please Try To Login");
+        }
     }
-    else{
-    $stmt = $conn->prepare("insert into registration(fname, email, mobile_number, state, city, gender)"
-    values(?,?,?,?,?,?,));
-    $stmt->build_param("sssssi",$fname,$email, $mobile_number, $state, $city, $gender);
-    $stmt->execute();
-    $stmt->close();
-    $conn->close();
-    }
+
+    echo json_encode($result);
 ?>
