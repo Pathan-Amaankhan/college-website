@@ -45,7 +45,7 @@
 }
 
 .toggle-btn.selected {
-    background: salmon;
+    background: #fa1b08;
 }
 
 .input-group{
@@ -69,10 +69,12 @@
     border: 1px solid rgba(255,127,80,1);
     border-radius: 10px;
 }
+
 .input-field:hover {
     cursor: text;
 }
-#submit-btn{
+
+#submit-btn {
     transition: all .3s;
     width: 69%;
     color: white;
@@ -81,15 +83,15 @@
     display:block;
     margin: auto;
     border: 1px solid white;
-    background-color: coral;
+    background-color: #fa1b08;
     outline: none;
     border-radius: 24px;
 }
 
 #submit-btn:hover {
     background: white;
-    border: 1px solid coral;
-    color: coral;
+    border: 1px solid #fa1b08;
+    color: #fa1b08;
 }
 
 #registration-form div, #login-form div {
@@ -113,5 +115,5 @@
 
 #form-container {
     transition: all 1s;
-    height: 200px;
+    height: 250px;
 }
