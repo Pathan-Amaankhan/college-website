@@ -32,13 +32,17 @@
                         <div>
                             <input type="text" name="password" class="input-field" placeholder="Enter Password" required>
                         </div>
+                        <div>
+                            <select onchange="print_city('state', this.selectedIndex);" id="sts" name ="stt" class="input-field" required></select>
+                            <select id ="state" class="input-field" required></select>
+                        </div>
                     </form>
 
                     <!-- This is for the Login Page's Input fields  -->
                     <form id="login-form">
                         <div>
-                            <input type="text" name="user-id" placeholder="Email" class= "input-field" required>
-                            <input type="password" name="password" placeholder="Password" class= "input-field" required>
+                            <input type="text" name="user-id" placeholder="Email" class= "input-field" required disabled>
+                            <input type="password" name="password" placeholder="Password" class= "input-field" required disabled>
                         </div>
                     </form>
                 </div>
@@ -47,12 +51,84 @@
         </div>
     </body>
 
+    <script src="cities.js"></script>
     <script>
         const registrationFrom = document.getElementById("registration-form");
         const loginForm = document.getElementById("login-form");
         const formContainer = document.getElementById("form-container");
         const toggleButtons = document.getElementsByClassName("toggle-btn");
         const submitButton = document.getElementById("submit-btn");
+        print_state("sts");
+
+        function Login(){
+            if(!toggleButtons[1].classList.contains("selected")) {
+                registrationFrom.style.transform="translate(-151%)";
+                loginForm.style.transform="translate(-51%)";
+                formContainer.style.height = "60px";
+                submitButton.style.width = "0";
+                submitButton.style.fontSize = "0";
+
+                Array.from(loginForm.children[0].children).forEach(function (element) {
+                    element.disabled = false;
+                });
+
+                Array.from(registrationFrom.children).forEach(function (formElement) {
+                    Array.from(formElement.children).forEach(function (element) {
+                        element.disabled = true;
+                    });
+                });
+
+                setTimeout(function () {
+                    loginForm.style.position = "relative";
+                    registrationFrom.style.position = "absolute";
+                    registrationFrom.style.opacity = "0";
+                    loginForm.style.opacity = "1";
+                    submitButton.innerText = "Login";
+                    submitButton.style.width = "69%";
+                    submitButton.style.fontSize ="small";
+                }, 1000);
+                toggleBtns("login");
+            }
+        }
+        function  Register() {
+            if(!toggleButtons[0].classList.contains("selected")) {
+                registrationFrom.style.transform="translate(-51%)";
+                loginForm.style.transform="translate(51%)";
+                formContainer.style.height = "250px";
+                submitButton.style.width = "0";
+                submitButton.style.fontSize = "0";
+                Array.from(loginForm.children[0].children).forEach(function (element) {
+                   element.disabled = true;
+                });
+
+                Array.from(registrationFrom.children).forEach(function (formElement) {
+                    Array.from(formElement.children).forEach(function (element) {
+                        element.disabled = false;
+                    });
+                });
+
+                setTimeout(function () {
+                    registrationFrom.style.position = "relative";
+                    loginForm.style.position = "absolute";
+                    loginForm.style.opacity = "0";
+                    submitButton.innerText = "Register";
+                    registrationFrom.style.opacity = "1";
+                    submitButton.style.width = "69%";
+                    submitButton.style.fontSize ="small";
+                }, 1000);
+                toggleBtns("register");
+            }
+        }
+
+        function toggleBtns(buttonPressed) {
+            if(buttonPressed === 'register') {
+                toggleButtons[0].classList.add("selected");
+                toggleButtons[1].classList.remove("selected");
+            } else {
+                toggleButtons[1].classList.add("selected");
+                toggleButtons[0].classList.remove("selected");
+            }
+        }
 
         function submitForm(buttonRef) {
             let formData = new FormData();
@@ -94,76 +170,6 @@
                         .then(response => response.json())
                         .then(data => alert(data.message));
                 }
-            }
-        }
-
-        function Login(){
-            if(!toggleButtons[1].classList.contains("selected")) {
-                registrationFrom.style.transform="translate(-151%)";
-                loginForm.style.transform="translate(-51%)";
-                formContainer.style.height = "60px";
-                submitButton.style.width = "0";
-                submitButton.style.fontSize = "0";
-
-                Array.from(loginForm.children[0].children).forEach(function (element) {
-                    element.disabled = false;
-                });
-
-                Array.from(registrationFrom.children).forEach(function (formElement) {
-                    Array.from(formElement.children).forEach(function (element) {
-                        element.disabled = true;
-                    });
-                });
-
-                setTimeout(function () {
-                    loginForm.style.position = "relative";
-                    registrationFrom.style.position = "absolute";
-                    registrationFrom.style.opacity = "0";
-                    loginForm.style.opacity = "1";
-                    submitButton.innerText = "Login";
-                    submitButton.style.width = "69%";
-                    submitButton.style.fontSize ="small";
-                }, 1000);
-                toggleBtns("login");
-            }
-        }
-        function  Register() {
-            if(!toggleButtons[0].classList.contains("selected")) {
-                registrationFrom.style.transform="translate(-51%)";
-                loginForm.style.transform="translate(51%)";
-                formContainer.style.height = "200px";
-                submitButton.style.width = "0";
-                submitButton.style.fontSize = "0";
-                Array.from(loginForm.children[0].children).forEach(function (element) {
-                   element.disabled = true;
-                });
-
-                Array.from(registrationFrom.children).forEach(function (formElement) {
-                    Array.from(formElement.children).forEach(function (element) {
-                        element.disabled = false;
-                    });
-                });
-
-                setTimeout(function () {
-                    registrationFrom.style.position = "relative";
-                    loginForm.style.position = "absolute";
-                    loginForm.style.opacity = "0";
-                    submitButton.innerText = "Register";
-                    registrationFrom.style.opacity = "1";
-                    submitButton.style.width = "69%";
-                    submitButton.style.fontSize ="small";
-                }, 1000);
-                toggleBtns("register");
-            }
-        }
-
-        function toggleBtns(buttonPressed) {
-            if(buttonPressed === 'register') {
-                toggleButtons[0].classList.add("selected");
-                toggleButtons[1].classList.remove("selected");
-            } else {
-                toggleButtons[1].classList.add("selected");
-                toggleButtons[0].classList.remove("selected");
             }
         }
 
